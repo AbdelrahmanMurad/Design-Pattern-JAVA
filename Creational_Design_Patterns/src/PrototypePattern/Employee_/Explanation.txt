@@ -1,0 +1,89 @@
+### Prototype Pattern Overview
+
+In software design, the Prototype Pattern allows you to create new objects by copying existing instances, 
+instead of repeating the same steps over and over again, which would otherwise consume time and effort. 
+This pattern becomes particularly useful when creating objects is resource-intensive. 
+The concept is simple: "rather than constructing objects from scratch, you create new instances by copying or cloning an existing one."
+
+#### Key Benefits:
+- Time and resource saving: Especially when dealing with objects that require heavy initialization.
+- New Instances by Copying: Instead of duplicating the effort, you make a new instance (or object) from the copied data.
+
+### Example:
+Imagine you have an abstract class named `Employee`:
+
+- Public Attributes:
+  - `name: string`
+  - `id: int`
+  - `address: Address` (where `Address` is a class with its own properties)
+
+- Public Abstract Methods:
+  - `shallowClone(): Employee`
+  - `deepClone(): Employee`
+  - *Note: Clone = Copy (they are synonymous in this context)*
+
+- Subclasses:
+  1. `RegularEmployee`
+  2. `TempEmployee`
+
+- ClientClass: [ mainClass ]
+  - This is another class that interacts with the `Employee` class to create new employees by cloning.
+
+---
+
+### Difference Between Shallow and Deep Copy/Clone
+
+Before diving into the distinction between shallow and deep copying, it's important to understand two core concepts: Value Types and Reference Types.
+
+#### Value Types:[ types from the programming language ]
+- Data Types like `int`, `float`, `double`, `String`, and `long` are examples of value types in many programming languages. When a value type is copied, the actual data is duplicated.
+
+#### Reference Types: [ types we create it like classes ]
+- Reference Types refer to objects or instances of classes that hold a reference to memory addresses rather than the actual data. For example:
+  ```java
+  Address address = new Address();
+  ```
+  Here, `address` is a reference type, pointing to the location where the `Address` object is stored. [ same location ]
+
+---
+
+#### Shallow Copy/Clone: [  Light Copy ]
+- A shallow copy creates a lightweight duplicate of the object.
+- No new instance is created for the reference types within the object.
+  - For Value Types: Any changes made to value type properties (e.g., integers or strings) in the copied object do not affect the original object.
+  - For Reference Types: However, for reference types (e.g., the `Address` object), the copy will still reference the same object in memory. 
+    This means changes made to the reference type in the copied object will also reflect in the original object.
+  
+Example:  
+```java
+Employee e1 = new RegularEmployee("John", 101, new Address("Street", "City"));
+Employee e2 = e1.shallowClone();  // Shallow copy
+e2.address.setCity("New City");   // Changes city in both e1 and e2
+```
+Here, modifying the `address` (a reference type) in `e2` affects `e1` because they share the same memory reference.
+
+---
+
+#### Deep Copy/Clone: [ Quite the opposite of Shallow Copy ] - [ Heavy Copy ] 
+- A deep copy creates a complete duplicate of the object.
+- A new instance is created for both value types and reference types.
+  - For Value Types: The values are copied just like in a shallow copy.
+  - For Reference Types: New instances are created, ensuring that any changes in the copied object do not affect the original object.
+
+Example:  
+```java
+Employee e1 = new RegularEmployee("John", 101, new Address("Street", "City"));
+Employee e2 = e1.deepClone();  // Deep copy
+e2.address.setCity("New City");   // Changes city only in e2
+```
+Here, modifying the `address` in `e2` does not affect `e1`, because they hold references to different memory locations.
+
+---
+
+### Summary:
+- Shallow Copy:
+  - Copies value types, but shares reference types with the original object.
+  - Suitable when you don’t need to duplicate complex, nested objects.
+- Deep Copy:
+  - Duplicates both value and reference types, creating a completely independent copy.
+  - Used when the object and its dependencies need to be fully separated from the original.

@@ -1,0 +1,28 @@
+**Project Using the Builder Pattern**
+
+- **Problem:**  
+  We have a lot of attributes, making it difficult to fill out a constructor because it's hard to remember each attribute's type.  
+  This is similar to when a student registers at a university and needs to fill in multiple fields.
+
+- **Solution: The Builder Pattern**  
+  The Builder Pattern helps solve this issue by allowing us to create objects in a more manageable way.
+
+  - We hide the basic constructor (`Student constructor`) to prevent direct access. [by making it private]
+  - We create a **static inner class** called `Builder`. The reason for making it static is to allow the Builder class to be accessed without creating an instance of the outer class (`Student`).
+  - The inner class (`Builder`) has the same attributes as the outer class (`Student`).
+  - Instead of passing everything to the constructor, we provide **setter methods** in the `Builder` class to set individual attributes.
+  - Finally, we create a `build()` method that:
+    - Type of outerClass
+    - Validates the attributes (if needed).
+    - Passes the attributes to the outer class’s constructor to create a new `Student` object.
+    - **Note:** The `build()` method is not a constructor but acts as an intermediary, checking and passing the values like a "secretary."
+
+- Now, in mainClass you want to set the details on the innerCalss attributes. [class1.class2 cc = new class1.class2]
+    - here you will see what you are typing. (not like the constructor)
+
+- **Summary:**  
+  The **Builder Class (Inner Class)** is a simplified version of the **Student Class (Outer Class)**. The main difference is that the outer class uses a constructor to initialize, while the inner class uses setter methods and a `build()` method.
+
+- **Advantages of the Builder Pattern:**
+  - It simplifies the process of object creation by making it more readable and structured.
+  - When using the inner class's attributes, you can see what you're typing, which is not always the case with long constructors.

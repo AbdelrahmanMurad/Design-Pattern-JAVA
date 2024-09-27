@@ -1,0 +1,64 @@
+This Project Contain Factory Pattern
+    - First: ItemClass
+        - Attributes
+        - set&get
+     
+    - Second: DeliveryMethod Interface 
+        - calcDeliveryPrice() 
+
+    - Third: Make classes implements DeliveryMethod.
+        - AirDelivery
+        - LandDelivery
+        - MaritimeDelivery
+
+    - Now, We can make the if statement for cheking the chosen method in mainClass.
+        - But, that way is not efficient; 
+        - That means its better to not modify on your code, insted of that create a new class and add the new code on that class.
+        - add new code, diffre than modify on code.
+        - if you find yourself that you keep editing/modifying on your code, so you have problems on that code.
+        - SO, we need Factory Pattern.
+        - We create a new class named as DeliveryMethodFactory
+            - contain a 'static method returns object from the interface' named as createDeliveryMethod
+                 - public static DeliveryMethod createDeliveryMethod(int id) {} 
+
+    - Now, you can use `if` or `switch` statements in your main class to choose a method. However, this approach is **not efficient**.
+        - Because if you want to add a new delivery method like drone delivery, you will edit the code in 'if' statement that is in mainClass.
+        - So, "Good code is the code that open for extension, but closed for modification."
+            - Means that you should avoid frequently modifying existing code. 
+              Instead, you should design your code so it can be extended (e.g., by adding new classes) without needing to change the existing code.
+            - Rather than **modifying** the main class every time you add a new delivery method, it's better to create a **new class** that handles the new method.
+            - Adding new code in separate classes is better than frequently **modifying** the same class or method.
+        - If you find yourself constantly changing the same code, it’s a sign that your design may need improvement.
+        - SO, We need Factory Pattern to handle this.
+            - The **Factory Pattern** is useful here because it allows you to create objects based on different criteria (like `id` in this case) without modifying the main class.
+            - You would create a new class called `DeliveryMethodFactory`.
+            - This class contains a **static method** (like `createDeliveryMethod`) that returns an object from a common interface (`DeliveryMethod`).
+            - For example:
+                ```java
+                    public static DeliveryMethod createDeliveryMethod(int id) {
+                        // Use if or switch to decide which delivery method to create
+                    }
+                ```
+            - This setup follows the **Factory Design Pattern**, keeping the main class clean and making it easier to extend the code in the future without constantly modifying it.
+                - This pattern helps keep the main class simple and clean. It removes the responsibility of object creation from the main class and moves it to a factory class.
+                - By doing this, we **create objects** without exposing the **details** of how they are created to the user or client. 
+            
+            - The main class doesn’t need to know about the specific subclass or how it was constructed, just that it gets an object that works.
+                - In this setup, the **main class** will primarily interact with **superclasses** or **interfaces**, not specific **subclasses**. 
+                - The factory handles the logic of deciding which subclass to create.
+                - This makes the main class more flexible and easier to maintain. 
+                - If new subclasses are added, the main class doesn't need to change; only the factory needs to be updated.
+            
+            - A **static method** like the one in the factory (`createDeliveryMethod`) can be called without creating an instance of the factory class. 
+                - This is useful because you can simply call the method directly to create objects, making the code more efficient and concise.
+                - For example:
+                    ```java
+                        DeliveryMethod delivery = DeliveryMethodFactory.createDeliveryMethod(id);
+                    ```
+                    In this line, you're calling the **`createDeliveryMethod`** without creating an object of `DeliveryMethodFactory`. 
+                    It simplifies object creation and ensures that your main class stays focused on the core logic, not object creation.
+
+            - In short:
+                - The main class stays clean, focused on high-level logic, and depends on abstractions (superclasses/interfaces).
+                - The factory takes care of creating the right objects.
+                - The static method allows you to call the factory without needing an instance, making the process efficient.
