@@ -1,0 +1,63 @@
+This Project for Factory Method Pattern;
+ - Lets understand the idea of code and its problem before pattern intent.
+    - Imagine you have to post something on a social media page. To post it you need to connect first.
+        - Example: You have a button called post, you click on it. Then the post button will log in to facebook first, then post the message, then logout. [see the img you have]
+        - We have the socialNetworkConnector interface [contain steps to post]:
+            - every websiteConnector implements the socialNetworkConnector interface.
+            - and we have socialNetworkPoster interface. [contain post method]
+                - every websitePoster implements socialNetworkPoster interface.
+                - so in the post method you apply the steps to post by calling object for the websiteConnector.
+        - you have done your post.
+        - but: [The First Problem]
+            - imagine if you want to post on multiple websites [X, Instegram, Linked in, so on....]
+            - imagine if you have more than these 3 steps. [accessing databse, save the post, so on...]
+            - you need to repeat every block of code on every website. 
+            - and thats a disaster, and you are wasting time & space.
+        - Solution ?? 
+            - Take all the similar codes the Father class which is socialNetworkPoster.
+            - That means you will take the method post to the socialNetworkPoster.
+            - and you are mandatory need to convert the socialNetworkPoster from interface to abstract class because you will need to code there.
+            - and dont forget to make the subClasses extends the supperClass.
+            - But, There is a new problem which is: [The second problem]
+                - Every website need to create his object. and thats line of code can't be on the superClass.
+                - Solution ?? [The Factory Method Pattern]
+                    - Create an abstract method from type of socialNetworkConnector in the supperClass.
+                    - call the abstract method in the post method, and store it in a variable from the same type.
+                    - This will make the superClass Handle the common code. and the subClasses handle the different code by making there object.
+                    
+- So, The Factory Method Pattern:
+    - makes the superClass handle the common code.
+    - and the subClasses handle the diffrent code.
+
+- The MainClass is easy.
+
+Try to add a website to see how it works.
+
+
+
+
+
+
+### 1. Initial Problem: Posting on Multiple Websites
+   - Explanation: The scenario describes a system where you need to post on multiple websites like Facebook, Instagram, LinkedIn, etc., and each platform has different logic for logging in, posting, and logging out. Repeating code for each platform is inefficient and introduces unnecessary redundancy.
+   - Correct: This correctly identifies the problem of code duplication when different social media platforms share similar steps but require specific implementations.
+
+### 2. First Problem: Repetition
+   - Explanation: As you add more platforms or more steps (such as accessing databases, saving posts, etc.), the code becomes harder to maintain because the same logic must be repeated for each platform.
+   - Correct: This is a common issue that the Factory Method Pattern can address by organizing the code to avoid unnecessary repetition.
+
+### 3. Solution: Refactoring Common Code
+   - Explanation: The solution described suggests moving the common logic (e.g., the steps to post) into a superclass (previously called `socialNetworkPoster`), making it an abstract class instead of an interface, because abstract classes allow you to define both abstract methods and concrete methods (i.e., methods with code).
+   - Correct: This step is accurate. By moving common functionality (like the posting process) to a superclass, you reduce duplication and centralize the logic that is shared across platforms.
+
+### 4. Second Problem: Object Creation
+   - Explanation: Each platform (e.g., Facebook, Instagram) needs to create its specific `Connector` object (e.g., `FacebookConnector`, `InstagramConnector`). However, this logic cannot be placed in the superclass because each platform requires a different `Connector`.
+   - Correct: This correctly identifies the need for flexibility in object creation, which the Factory Method Pattern is designed to handle.
+
+### 5. Factory Method Pattern Solution
+   - Explanation: The Factory Method Pattern solves this issue by allowing subclasses (e.g., `FacebookPoster`, `InstagramPoster`) to override an abstract method in the superclass to provide their own implementation of the `Connector` (e.g., `FacebookConnector`).
+   - Correct: This is exactly the purpose of the Factory Method Pattern. The superclass defines the common behavior (posting steps), while the subclasses handle the creation of specific objects (social network connectors) via the factory method.
+
+### 6. Summary of Factory Method Pattern
+   - Explanation: The Factory Method Pattern allows the superclass to handle the common logic, while the subclasses handle the object creation specific to each social network.
+   - Correct: This is an accurate description of the intent of the pattern: to delegate the instantiation of objects to subclasses while maintaining shared behavior in the superclass.
