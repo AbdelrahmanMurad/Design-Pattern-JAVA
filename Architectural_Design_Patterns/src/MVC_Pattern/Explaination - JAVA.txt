@@ -1,0 +1,28 @@
+Model:
+• The Model represents a set of classes that describe the business logic i.e. 
+business model as well as data access operations i.e. data model. It also defines 
+business rules for data means how the data can be changed and manipulated.
+
+View:
+• The View represents the UI components like CSS, jQuery, html etc. It is only 
+responsible for displaying the data that is received from the controller as the 
+result. This also transforms the model(s) into UI.
+
+Controller:
+• The Controller is responsible to process incoming requests. It receives input from 
+users via the View, then process the user's data with the help of Model and 
+passing the results back to the View. Typically, it acts as the coordinator between 
+the View and the Model. There is One-to-Many relationship between Controller 
+and View, means one controller can handle many views.
+
+
+
+***** Important notes:
+1. Model should not know about View anything. (View too)
+    - In JAVA, How Model will send something to View ?? You can use Observer Pattern. (Model too) [JAVA] [JAVA] [JAVA]
+    - In Web Backend, Controller is Controlling. hahaha
+2. There is One-to-Many relationship between Controller and View, means one controller can handle many views.
+
+3. MVC is so important in testing.
+
+4. MVC is used for Backend Web Development a lot.

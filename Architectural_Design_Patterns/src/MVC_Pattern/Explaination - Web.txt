@@ -1,0 +1,28 @@
+MVC: https://youtu.be/-xKVqzsxm8A?list=PLE5Mq0Nw_Flr1kMDtWmQYmAfURQpH3r8H
+
+
+- Model–view–controller: Software architectural pattern
+- Model–view–controller (MVC) is a software design pattern commonly used for developing user interfaces 
+  that divides the related program logic into three interconnected elements. This is done to separate 
+  internal representations of information from the ways information is presented to and accepted from the user.
+- Traditionally used for desktop graphical user interfaces (GUIs), this pattern became popular for designing web
+  applications. Popular programming languages have MVC frameworks that facilitate the implementation of the pattern.
+    - Model: Entitie => class-student, class-teacher, class-course.
+    - View: User Interface - UI
+    - Controller: Operations
+[user <--> middleware <--> routes <--> view <--> controller <--> model <--> DB]
+
+- From View you can deal with UI
+- From Controller you can deal with operations
+- From Model you can deal with database.
+
+
+How does it work to get database??
+    1. User sees the View, the request goes to the Controller.
+    2. The operation is on the Controller, and it needs to get database from the Model, because the Model is resposible
+       on getting database from the place where it is, Then from the Model to the Controller to the View. 
+    - So, the Controller is a link between the Model and the View.
+    - The View is JSON response.
+    - The response is from the Controller.
+
+- انا حر في التقسيمة وممكن اغير الاسامي
