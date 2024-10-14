@@ -1,1 +1,12 @@
-# Design-Pattern-JAVA
+# Review-OOP
+- Inheritance
+- superClass
+- subClass
+- variables
+- constructor
+- methods
+- instance
+- Polymorphism
+- abstract
+- accept scopes
+- interface
