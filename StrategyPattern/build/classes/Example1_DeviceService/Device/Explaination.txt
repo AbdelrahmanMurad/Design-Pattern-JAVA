@@ -1,0 +1,143 @@
+### Strategy Pattern Overview
+
+#### Intent: 
+The Strategy Pattern's goal is to define a family of algorithms, encapsulate each one in its own class, and make them interchangeable. 
+    This allows the algorithm to vary independently from the clients that use it.
+
+#### Scenario:
+Consider an application like a news or social media app (e.g., Facebook) that needs to fetch updates from a server. 
+    Based on the device's power mode, the frequency of updates can vary:
+        - Charging Mode: Get updates every 1 minute and send notifications to the client.
+        - Battery Mode: Get updates every 5 minutes and send notifications to the client.
+        - Low Battery Mode: Get updates every 30 minutes and send notifications to the client.
+
+#### Problem:
+
+Here’s an initial implementation using conditionals:
+
+```java
+public class DeviceService {
+
+    public static int MODE_CHARGING = 1;
+    public static int MODE_ON_BATTARY = 2;
+    public static int MODE_ON_LOW_BATTARY = 3;
+
+    public void process(int mode) {
+        if (mode == DeviceService.MODE_CHARGING) {
+            System.out.println("Charging: Get updates every 1 minute from the server, and send notification to the client");
+        } else if (mode == DeviceService.MODE_ON_BATTARY) {
+            System.out.println("On battery: Get updates every 5 minutes from the server, and send notification to the client");
+        } else if (mode == DeviceService.MODE_ON_LOW_BATTARY) {
+            System.out.println("On low battery: Get updates every 30 minutes from the server, and send notification to the client");
+        }
+    }
+}
+```
+
+The issue with this approach is the violation of the Open/Closed Principle (OCP) from SOLID principles. 
+    The code is closed for modification but open for extension, meaning that every time a new mode is added (e.g., Airplane mode, Night mode, Reading mode), 
+    the code needs to be modified. This leads to a bloated method with more `if-else` or `switch-case` statements.
+
+#### Solution: Strategy Pattern
+
+The Strategy Pattern helps by defining a common interface for various algorithms, allowing them to be interchangeable without modifying the client code. Each mode will have its own class implementing a common interface.
+
+##### Step-by-step implementation:
+
+1. Define the Strategy Interface:
+   ```java
+   public interface ModeStrategy {
+       void execute();
+   }
+   ```
+
+2. Create Concrete Strategy Classes for each mode:
+   
+   - Charging Mode:
+     ```java
+     public class ChargingMode implements ModeStrategy {
+         @Override
+         public void execute() {
+             System.out.println("Charging: Get updates every 1 minute from the server, and send notification to the client");
+         }
+     }
+     ```
+
+   - Battery Mode:
+     ```java
+     public class BatteryMode implements ModeStrategy {
+         @Override
+         public void execute() {
+             System.out.println("On battery: Get updates every 5 minutes from the server, and send notification to the client");
+         }
+     }
+     ```
+
+   - Low Battery Mode:
+     ```java
+     public class LowBatteryMode implements ModeStrategy {
+         @Override
+         public void execute() {
+             System.out.println("On low battery: Get updates every 30 minutes from the server, and send notification to the client");
+         }
+     }
+     ```
+
+3. Refactor the DeviceService class to use the Strategy Pattern:
+   
+   ```java
+   public class DeviceService {
+       private ModeStrategy strategy;
+
+       public DeviceService(ModeStrategy strategy) {
+           this.strategy = strategy;
+       }
+
+       public void process() {
+           strategy.execute();
+       }
+
+       public void setStrategy(ModeStrategy strategy) {
+           this.strategy = strategy;
+       }
+   }
+   ```
+
+4. Client Code (e.g., main class):
+   
+   ```java
+   public class Main {
+       public static void main(String[] args) {
+           DeviceService deviceService = new DeviceService(new ChargingMode());
+           deviceService.process();
+
+           // Switch to Battery Mode
+           deviceService.setStrategy(new BatteryMode());
+           deviceService.process();
+
+           // Switch to Low Battery Mode
+           deviceService.setStrategy(new LowBatteryMode());
+           deviceService.process();
+       }
+   }
+   ```
+
+#### Explanation:
+The Strategy Pattern introduces flexibility by allowing the mode-switching logic to be handled outside of the `DeviceService` class. 
+    Instead of using `if-else` or `switch-case` statements, we inject the appropriate `ModeStrategy` class and call its `execute()` method.
+
+#### Benefits of Strategy Pattern:
+1. Open/Closed Principle (OCP): The code is now open for extension (new modes can be added easily) and closed for modification (the core logic in the `DeviceService` class doesn’t need to change).
+2. Decoupling: The device mode logic is decoupled from the client class, leading to cleaner, more maintainable code.
+3. Reusability: Each mode is encapsulated in its own class, which makes it easier to reuse or replace individual algorithms.
+4. Scalability: Adding new modes (e.g., Airplane Mode, Night Mode) doesn’t require modifying the existing code but simply implementing new `ModeStrategy` classes.
+
+#### Conclusion:
+By applying the Strategy Pattern, the solution becomes more maintainable, flexible, and in line with good software design principles 
+    like the Open/Closed Principle. New behaviors (modes) can be added without altering the existing `DeviceService` logic, 
+    leading to a robust and scalable system.
+
+
+
+
+Try to add new Mode. Easy :)

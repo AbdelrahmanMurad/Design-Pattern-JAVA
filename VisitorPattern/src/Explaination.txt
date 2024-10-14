@@ -1,0 +1,108 @@
+### Visitor Pattern
+
+#### Intent:
+The Visitor Pattern is a behavioral design pattern that allows you to add further operations to objects (or classes) without modifying them. 
+This is achieved by decoupling the operations (or methods) from the objects on which they operate.
+
+#### Scenario:
+Imagine a shape-drawing library. You have an interface `Shape` that includes a `draw()` method, and concrete classes like `Circle` and `Triangle` that implement the `Shape` interface.
+
+#### Problem:
+If you want to add new functionality, such as calculating the area or perimeter of shapes, you would need to modify the `Shape` interface by adding these methods. 
+This results in the need to implement the new methods across all the concrete classes, which is tedious, especially if you have a large number of classes (e.g., 20 or more). 
+This tight coupling between the interface and the concrete classes makes extending the system cumbersome.
+
+#### Solution:
+The Visitor Pattern solves this issue by allowing you to add new methods without modifying the existing concrete classes. Here’s how:
+
+1. Create an Interface `IVisitor`:
+   - The `IVisitor` interface defines the methods you need to perform specific operations on various concrete classes.
+   
+   Example:
+   ```java
+   public interface IVisitor {
+       void processShape(Circle circle);
+       void processShape(Rectangle rectangle);
+       // void processShape(ConcreteClass concreteClass);
+       // You can add methods for other shapes as needed
+   }
+   ```
+
+2. Add an `accept()` Method to the `Shape` Interface:
+   - The `Shape` interface should have a method `accept(IVisitor visitor)` that accepts a visitor object. This method is implemented by the concrete classes.
+
+   Example:
+   ```java
+   public interface Shape {
+       void draw();
+       void accept(IVisitor visitor);
+   }
+   ```
+// This line means that the accept(IVisitor visitor) method should ideally be included in the design of the Shape interface by the original developer of the library, 
+    rather than by you as a user of the library.
+
+
+3. Implement the `accept()` Method in Concrete Classes:
+   - Each concrete class, like `Circle` and `Rectangle`, implements the `accept()` method by calling the visitor's `processShape()` method.
+
+   Example for `Circle`:
+   ```java
+   public class Circle implements Shape {
+       private double radius;
+
+       public Circle(double radius) {
+           this.radius = radius;
+       }
+
+       public double getRadius() {
+           return radius;
+       }
+
+       @Override
+       public void draw() {
+           System.out.println("Drawing Circle");
+       }
+
+       @Override
+       public void accept(IVisitor visitor) {
+           visitor.processShape(this);
+       }
+   }
+   ```
+
+// Ok, where is the implementation of those methods ?? whats there job is ??
+4. Create Concrete Visitor Classes:
+   - Concrete visitors implement the `IVisitor` interface and provide specific implementations for the methods. 
+        For example, an `AreaVisitor` might calculate the area of each shape.
+
+   Example:
+   ```java
+   public class AreaVisitor implements IVisitor {
+       @Override
+       public void processShape(Circle circle) {
+           double area = Math.PI * circle.getRadius() * circle.getRadius();
+           System.out.println("Circle area = " + area);
+       }
+
+       @Override
+       public void processShape(Rectangle rectangle) {
+           double area = rectangle.getWidth() * rectangle.getHeight();
+           System.out.println("Rectangle area = " + area);
+       }
+   }
+   ```
+
+   - If you want to add a new operation, like calculating the perimeter, you create a new visitor class (e.g., `PerimeterVisitor`) without changing the existing concrete shape classes.
+
+#### Benefits of This Pattern:
+- Separation of Concerns: The logic for operations (e.g., area or perimeter calculation) is separated from the objects they operate on.
+- Ease of Extensibility: New operations can be added without modifying existing concrete classes.
+- Open/Closed Principle: Concrete classes are open for extension through visitors but closed for modification.
+
+#### Conclusion:
+The Visitor Pattern is ideal when you need to perform different, unrelated operations on a set of objects without modifying their structure. It is especially useful in scenarios where the number of operations increases over time but the object structure remains stable.
+
+
+=========================================
+Try to add new concrete class
+Try to add new method

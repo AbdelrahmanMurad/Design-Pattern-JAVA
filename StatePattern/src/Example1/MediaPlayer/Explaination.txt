@@ -1,0 +1,55 @@
+### State Pattern
+
+
+#### Intent:
+The State Pattern allows an object to alter its behavior when its internal state changes, making the object appear as though it has changed its class. This pattern helps manage complex state transitions in a clean, modular way, without relying on extensive conditional logic (like `if-else` or `switch` statements).
+
+
+#### Scenario:
+A media player application that can transition between multiple states such as Idle, Ready, Playing, and Paused. The state transitions are controlled by various methods (e.g., `play()`, `pause()`, `stop()`, etc.), and the media player's behavior should change depending on the current state.
+
+
+#### Problem:
+Without the State Pattern, the media player's behavior would be managed through numerous conditional checks (`if-else` or `switch` statements) in a single class. This approach can lead to messy, difficult-to-maintain code as more states and transitions are added.
+For example, the player class would need to check which state it is in before responding to user inputs like `play()` or `pause()`. As the number of states grows, the code becomes increasingly difficult to follow and extend.
+
+
+#### Solution: State Pattern:
+By using the State Pattern, each state (like `Idle`, `Ready`, `Playing`, and `Paused`) is represented as a separate class, with its own implementation of how to handle methods like `play()` and `pause()`. The Context (media player object) delegates the behavior to the current State object, allowing the behavior to change dynamically as the state changes.
+
+
+#### Explanation:
+- Context: The media player class that holds a reference to the current state object and delegates requests to it.
+- State Interface: Defines the common methods like `play()`, `pause()`, `stop()`, etc., that all states will implement.
+- Concrete States: Each state class (e.g., `IdleState`, `PlayingState`, `PausedState`) implements the state interface and defines its specific behavior for those methods.
+- State Transitions: The media player changes its state by assigning a new state object to the context, which alters its behavior.
+
+
+#### Benefits of the State Pattern:
+1. Cleaner Code: No more long `if-else` or `switch` blocks. Each state is encapsulated in its own class, making the code easier to understand and maintain.
+2. Extensibility: New states can be added without modifying existing code, promoting the Open/Closed Principle.
+3. Separation of Concerns: Each state class is responsible for its own behavior, leading to better-organized code.
+4. Dynamic Behavior: The object's behavior can change at runtime as its state changes, without needing to change the object's class.
+
+
+#### Conclusion:
+The State Pattern provides a structured way to manage state transitions in systems with complex, multi-state behavior, like a media player. It simplifies the code by separating state-specific behavior into different classes and allowing dynamic changes to the object's behavior. By using this pattern, you avoid cluttering your code with conditional logic and create a scalable, maintainable design.
+
+========================================================================
+
+Classes Creating Steps:
+1- First thing you need 2 Classes to make the methods:
+        1- StateMediaPlayer
+                - currentState variable - type of State class.
+                - make a setter for the variable to set the current state.
+                - dont forget to set the first state by the constructor.
+                - make all the methods. [you need to make the method have access to the methods on State Class, thats why currentState from type State] 
+        2- State [abstract class]
+                - player variable - type of StateClassPlayer class.
+                - make a constructor to pass the player variable on it. [Parameterized Constructor]
+                - make the same methods but abstracted.
+
+2- Make all the States (concrete classes) [Every state will extends the State Class]
+        - set the current state by the player.
+
+3- UI class.
