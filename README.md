@@ -1,5 +1,5 @@
 # Design-Pattern-JAVA
-1. Review OOP
+A. Review OOP
    - Inheritance
    - superClass
    - subClass
@@ -12,14 +12,14 @@
    - accept scopes
    - interface
 
-2. Creational Design Pattern
+B. Creational Design Pattern
    1. Singleton [**Important**]
    2. Factory Method [**Important**]
    3. Abstract Factory [**Important**]
    4. Builder [**Important**]
    5. Prototype   
 
-3. Behavioral Design Patterns
+C. Behavioral Design Patterns
    1. Observer [Important]
    2. Data Bus [Important]
    3. Command [Important]
@@ -32,7 +32,7 @@
    10. Memento
    11. Visitor
 
-4. Structural Design Patterns
+D. Structural Design Patterns
    1. Decorator [Important]
    2. Facade [Important]
    3. Adapter [Important]
@@ -41,7 +41,7 @@
    6. Bridge
    7. Flyweight
 
-5. Architectural Design Patterns
+E. Architectural Design Patterns
    1. MVC [Important]
    2. MVP
    3. MVVP
