@@ -1,0 +1,116 @@
+#### Flyweight Pattern 
+
+### Intent:
+Minimize memory usage by sharing as much data as possible between similar objects. 
+It is particularly useful when dealing with a large number of similar objects that can share parts of their state, reducing redundancy and improving performance.
+
+### Scenario of the project:
+Imagine you are developing a 2D graphics rendering application where you need to draw many shapes, like circles, on the screen. 
+Each circle has properties such as color, radius, and position. 
+The application should allow users to create thousands of circles with various properties, which could cause significant memory overhead if each circle is stored as a unique object.
+
+### Problem:
+Without the Flyweight Pattern, every circle would be represented by a separate object, even if many of them share the same color and radius. 
+If there are thousands of circles, this can result in excessive memory consumption, as each object stores the same data redundantly.
+
+Example (Before Using Flyweight Pattern):
+
+```java
+class Circle {
+    private String color;
+    private int radius;
+    private int x, y;
+
+    public Circle(String color, int radius, int x, int y) {
+        this.color = color;
+        this.radius = radius;
+        this.x = x;
+        this.y = y;
+    }
+
+    public void draw() {
+        System.out.println("Drawing a " + color + " circle with radius " + radius + " at (" + x + ", " + y + ")");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Circle[] circles = new Circle[10000];
+        
+        // Create 10,000 circles with the same color and radius
+        for (int i = 0; i < 10000; i++) {
+            circles[i] = new Circle("red", 5, (int)(Math.random() * 100), (int)(Math.random() * 100));
+            circles[i].draw();
+        }
+
+        // Memory usage is high as each circle stores color and radius individually.
+    }
+}
+```
+
+### Solution:
+
+With the Flyweight Pattern, we store shared data, like color and radius, externally in a shared object (called Flyweight) and each circle only stores its unique state, 
+such as its position. This drastically reduces memory usage because common properties (intrinsic state) are shared.
+
+Example (Using Flyweight Pattern):
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+// Flyweight class that contains shared data
+class CircleFlyweight {
+    private final String color;
+    private final int radius;
+
+    public CircleFlyweight(String color, int radius) {
+        this.color = color;
+        this.radius = radius;
+    }
+
+    public void draw(int x, int y) {
+        System.out.println("Drawing a " + color + " circle with radius " + radius + " at (" + x + ", " + y + ")");
+    }
+}
+
+// Flyweight Factory to manage flyweight objects
+class CircleFactory {
+    private final Map<String, CircleFlyweight> circleMap = new HashMap<>();
+
+    public CircleFlyweight getCircle(String color, int radius) {
+        String key = color + "_" + radius;
+        if (!circleMap.containsKey(key)) {
+            circleMap.put(key, new CircleFlyweight(color, radius));
+        }
+        return circleMap.get(key);
+    }
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        CircleFactory factory = new CircleFactory();
+        CircleFlyweight[] circles = new CircleFlyweight[10000];
+
+        // Create 10,000 circles sharing the same color and radius
+        for (int i = 0; i < 10000; i++) {
+            CircleFlyweight circle = factory.getCircle("red", 5); // Shared data
+            int x = (int)(Math.random() * 100);
+            int y = (int)(Math.random() * 100);
+            circle.draw(x, y); // Unique data (position)
+        }
+
+        // Memory usage is significantly reduced by sharing color and radius.
+    }
+}
+```
+
+### Benefits of This Pattern:
+
+1. Reduced Memory Usage: By sharing common properties across objects, memory usage is minimized, especially when dealing with a large number of similar objects.
+2. Performance Improvement: With less memory consumption, the application performs better due to reduced overhead.
+3. Separation of Concerns: The Flyweight pattern separates intrinsic (shared) state from extrinsic (unique) state, making the code more modular and efficient.
+
+### Conclusion:
+The Flyweight Pattern is ideal when an application involves many similar objects that share common data. By using this pattern, memory consumption is optimized, and performance is improved. This is particularly useful in resource-constrained environments where managing large object sets efficiently is essential.

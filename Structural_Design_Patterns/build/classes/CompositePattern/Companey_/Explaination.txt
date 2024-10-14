@@ -1,0 +1,50 @@
+### Composite Pattern
+The Composite Pattern refers to the concept of a "composite"—something made up of multiple components. While it is similar to the Proxy Pattern, the intent of the two is different. The Composite Pattern operates like a tree structure, which provides several benefits to programs that follow this approach. It typically consists of a Component class (the root) and other types of classes (leaves).
+
+#### Intent:
+- Compose objects into tree structures to represent part-whole hierarchies.
+- Allow clients to treat individual objects and compositions of objects in a uniform manner.
+
+#### Scenario:
+Imagine a company where we need to add different types of employees to the organization.
+
+#### Problem:
+The challenge is creating separate objects for each type of employee and using these objects to display the details of individual employees. While we can create a distinct object for each employee type, this approach becomes problematic when there are many types of employees, especially if we need to perform a variety of operations, not just displaying details. Managing these objects individually leads to complex and unmanageable code, particularly when scaling up operations.
+
+#### Solution:
+The solution involves creating a common class that unifies all types of employees into one type, which is represented by an interface (the parent class, Employee). This allows for consistent treatment of all employee types, simplifying operations and reducing complexity.
+
+### Benefits of This Pattern:
+- Simplifies handling complex hierarchical structures by using a unified approach.
+- Enables operations to be performed uniformly across individual objects and compositions.
+
+### Conclusion:
+By using the Composite Pattern, we can model complex hierarchies, such as employees in a company, in a simple and maintainable way. This allows for consistent handling of both single objects and groups of objects.
+
+---
+
+### Composite Structure Class:
+```java
+interface Employee {
+    void operation();
+}
+
+class CompositeEmployee implements Employee {
+    private List<Employee> employees = new ArrayList<>();
+
+    public void add(Employee e) {
+        employees.add(e);
+    }
+
+    public void remove(Employee e) {
+        employees.remove(e);
+    }
+
+    @Override
+    public void operation() {
+        for (Employee employee : employees) {
+            employee.operation();
+        }
+    }
+}
+```

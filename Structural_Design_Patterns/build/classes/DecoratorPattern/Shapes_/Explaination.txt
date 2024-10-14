@@ -1,0 +1,89 @@
+### Decorator Pattern
+
+#### Intent:
+- Attach additional responsibilities to an object dynamically (during runtime).
+- Decorators offer a flexible alternative to subclassing for extending functionality.
+- Also known as the *Wrapper* pattern.
+
+---
+
+#### Scenario:
+We have multiple shapes, such as Circle and Rectangle (and potentially more, like Triangle, Square, etc.). If we want to apply various characteristics (e.g., borders, colors, other attributes) to these shapes, there are two main approaches:
+
+1. Without Additional Characteristics: Create basic shapes like Circle and Rectangle without extra features.
+2. With Additional Characteristics: Create versions of the shapes with attributes like borders and colors.
+
+Initially, we could create subclasses for each variant (e.g., CircleWithBorder, RectangleWithBorder, etc.), but this would lead to a proliferation of subclasses. Every time we introduce a new characteristic (like color or border), we would need to create new subclasses for every shape, resulting in an unmanageable hierarchy.
+
+Each shape (e.g., Circle, Rectangle) would initially implement an `IShape` interface, which defines the basic drawing behavior.
+
+---
+
+#### Problem:
+Using inheritance to extend functionality by creating new subclasses for every combination of shape and characteristic would result in a complex and inefficient class structure. For example, if you have shapes like Circle, Rectangle, Triangle, Square, and more, subclassing them to handle each combination of features (e.g., border, color) would quickly become unmanageable.
+
+---
+
+#### Solution:
+The Decorator Pattern provides a better solution by allowing you to add functionality dynamically without creating excessive subclasses.
+
+---
+
+### Implementation of the Decorator Pattern
+
+Step-by-Step:
+
+1. Create a Class for Border Decoration:
+   - Make a class called `Border`.
+   - `Border` should be of the same type as the other shapes (since shapes implement `IShape`). Therefore, `Border` will implement `IShape`.
+   
+2. Create a Constructor:
+   - The constructor for the `Border` class will accept an `IShape` object, which allows the decorator to "wrap" the shape.
+
+    ```java
+    IShape shape;
+    public Border(IShape shape) {
+        this.shape = shape;
+    }
+    ```
+
+3. Implement the Wrapper in the `draw` Method:
+   - Implement the logic for drawing the border in the `draw` method of the `Border` class.
+
+4. Client Code:
+   - In the client class, create instances of shapes and then decorate them with a border by creating an instance of `Border` that wraps the shape.
+
+   Example Code:
+
+   ```java
+   Circle c = new Circle();
+   Border bC = new Border(c);
+   bC.setBorderColor(Color.Green); // Set the border color for the circle
+   // Other lines of code
+   bC.draw(GetGraphics()); // Draw the circle with a green border
+
+   Rectangle r = new Rectangle();
+   Border bR = new Border(r);
+   bR.setBorderColor(Color.Red); // Set the border color for the rectangle
+   // Other lines of code
+   bR.draw(GetGraphics()); // Draw the rectangle with a red border
+   ```
+
+---
+
+### Benefits of the Decorator Pattern
+
+#### Before Using the Decorator Pattern:
+- You would need to create separate subclasses for every shape and every new feature (e.g., `CircleWithBorder`, `RectangleWithBorder`, `CircleWithColor`, etc.).
+- This would lead to an explosion of subclasses, making your code harder to maintain and scale.
+
+#### After Using the Decorator Pattern:
+- The Decorator Pattern reduces the need for numerous subclasses by allowing you to compose objects at runtime.
+- It adds functionality dynamically, keeping the code flexible and easier to manage.
+- You can combine multiple decorators (e.g., adding both borders and colors) without creating additional subclasses for every possible combination.
+- It adheres to the Open/Closed Principle, allowing your classes to be open for extension but closed for modification.
+
+---
+
+### Conclusion:
+The Decorator Pattern allowed us to enhance the shapes dynamically by adding borders or other features without complicating the class hierarchy. Before using this pattern, subclassing would have made the codebase large and difficult to manage. After implementing the decorator, we gained flexibility, reduced redundancy, and improved scalability in how we handle shape characteristics.

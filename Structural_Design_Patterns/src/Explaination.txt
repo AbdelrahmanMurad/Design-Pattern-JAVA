@@ -1,0 +1,7 @@
+### Name Pattern
+#### Intent:
+#### Scenario:
+#### Problem:
+#### Solution: 
+### Benefits of This Pattern:
+#### Conclusion:

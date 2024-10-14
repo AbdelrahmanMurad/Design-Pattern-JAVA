@@ -1,0 +1,31 @@
+### Facade Pattern [Facade means interface]
+
+#### Intent:
+Provide a unified interface to a set of interfaces in a subsystem. 
+The facade defines a higher-level interface that simplifies the use of the subsystem.
+
+#### Scenario:
+In this example, the subsystem consists of two services: a hotel booking system (`HotelBooker`) and a flight booking system (`FlightBooker`). 
+Each of these classes has its own interface, which can be complex for a client to manage. 
+The facade pattern is used to simplify the process by providing a unified interface (`TravelFacade`) for booking both hotels and flights.
+
+#### Problem:
+Clients need to interact with multiple services (hotels and flights) with separate interfaces. 
+Managing these services individually can lead to complex code, especially when the client is only interested in the overall booking outcome.
+
+#### Solution:
+The `TravelFacade` class provides a unified interface that hides the complexities of the `HotelBooker` and `FlightBooker` classes. 
+Instead of the client dealing with each subsystem, the facade handles the coordination, allowing the client to simply call one method (`booking`) with the relevant parameters. 
+This simplifies the interaction between the client and the subsystem.
+
+#### Benefits of This Pattern:
+- **Simplification**: It hides the internal complexity of subsystems (hotels and flights) from the client, making them easier to use.
+- **Loose coupling**: The client and subsystem are loosely coupled, meaning changes in the subsystem’s implementation do not affect the client code.
+- **Reduced dependencies**: Large systems benefit from fewer compilation dependencies, as changes to one subsystem don’t cascade to others.
+- **Portability**: Simplifying subsystems helps when porting them to other platforms, as changes are localized and isolated from the rest of the system.
+- **Access to underlying classes**: While the facade simplifies interfaces, sophisticated clients can still access the underlying subsystems if necessary.
+- **No added functionality**: Facade simply simplifies access to subsystems without adding new functionality.
+
+#### Conclusion:
+The facade pattern streamlines the interaction with complex subsystems, providing a cleaner, more user-friendly interface while maintaining flexibility for more advanced use cases. 
+It’s ideal for situations where multiple services need to be coordinated, like booking both hotels and flights for a trip.

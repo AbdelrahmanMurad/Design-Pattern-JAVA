@@ -1,0 +1,77 @@
+### Adapter Pattern
+
+#### Intent:
+- Convert the interface of a class into another interface that clients expect.
+- Adapter allows classes with incompatible interfaces to work together.
+
+---
+
+### Scenario:
+
+Imagine we have three libraries:
+1. Client
+2. ArraySorter
+3. ListSorter
+
+- Client Library using ArraySorter Library.
+
+- ArraySorter Library has a method called `setSorter()`. The client is required to call the `sort()` method inside `setSorter()` and implement the sorting logic themselves.
+    - `setSorter()` works with an array of integers (`int[]`).
+  
+- ListSorter Library has a method called `sort()`, which is ready to use as is.
+    - `sort()` works with a list of integers. (`List<Integer>`)
+
+---
+
+### Problem:
+The client wants to use the `sort()` method from the ListSorter inside the ArraySorter's `setSorter()`. However, this is not possible due to the difference in input/output types:
+- ArraySorter uses `int[]` (array of integers).
+- ListSorter uses `List<Integer>` (list of integers).
+
+This mismatch causes an error.
+
+---
+
+### Solution:
+The solution is to use the Adapter Pattern. 
+The Adapter Pattern allows us to adapt the ListSorter so that it can be used within the ArraySorter's `setSorter()` method by converting the data types as needed.
+
+---
+
+### Benefits of This Pattern:
+- Reusability: Allows the reuse of existing classes without modifying their source code.
+- Flexibility: Makes incompatible interfaces work together by adapting one interface to another.
+- Separation of Concerns: Keeps the original classes unchanged while adding new functionality through the adapter.
+
+---
+
+### Code Example:
+
+```java
+Client c = new Client();
+int[] numbers = {9, 2, 6, 4, 7};
+ListSorter listSorter = new ListSorter();
+c.setSorter(listSorter.sort());
+c.process(numbers);
+```
+
+---
+
+### Conclusion:
+The Adapter Pattern is useful when you need to integrate classes or libraries with incompatible interfaces, enabling them to work together without altering their original code. 
+It promotes code reusability, flexibility, and maintainability.
+
+---
+
+### Notes:
+
+- You don't need to know the specifics of how the libraries are coded.
+    - The focus is on why and how the Adapter Pattern is used to solve the problem of incompatible interfaces.
+    - The details of the libraries’ internal implementation are not important for understanding the concept and application of the pattern.- The adapter class either extends a class or implements an interface to inherit its structure.
+
+- The adapter class' type should match the class/interface being adapted. 
+    - ArraySorter is the target interface expected by the client.
+    - ListSorter is the incompatible class that sorts a list instead of an array.
+    - ListSorterAdapter adapts the ListSorter class to work with the ArraySorter interface by converting between int[] (array) and List<Integer> (list).
+
+- ListSorter is called Adaptee.

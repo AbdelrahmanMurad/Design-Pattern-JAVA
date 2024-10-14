@@ -1,0 +1,198 @@
+### Bridge Pattern
+
+#### Intent:
+Separates an abstraction from its implementation, allowing them to vary independently. 
+The goal is to avoid a fixed relationship between the abstraction and its implementation, providing flexibility and reducing code complexity.
+
+#### Scenario of the Project:
+Imagine you're developing a system to render various shapes like circles and squares, with multiple possible rendering platforms (e.g., vector-based or raster-based graphics). 
+You want to make it easy to switch between different shapes and rendering platforms without modifying the core structure of the shapes.
+
+#### Problem:
+Without the Bridge pattern, you might tightly couple each shape to a specific rendering platform, resulting in a large number of classes. 
+For example, if you have 3 shapes (Circle, Square, Triangle) and 2 rendering platforms (Vector, Raster), you'd need 6 different classes (VectorCircle, RasterCircle, VectorSquare, RasterSquare, etc.). 
+This increases complexity and makes it hard to extend the system when adding new shapes or rendering platforms.
+
+#### Solution:
+Using the Bridge pattern, you separate the abstraction (Shape) from the implementation (Renderer). 
+You create a base class or interface for both Shape and Renderer, and then allow each to evolve independently. 
+You can define a `Renderer` interface that is implemented by `VectorRenderer` and `RasterRenderer`, 
+and then use these implementations with different shape abstractions like `Circle` and `Square`. 
+This way, if you add a new rendering platform or shape, you only need to create the new class without affecting existing code.
+
+#### Benefits of This Pattern:
+1. Separation of Concerns: The abstraction (shape) and implementation (renderer) are separate, making the code easier to maintain and extend.
+2. Flexibility: It is easy to introduce new shapes or rendering implementations without modifying existing code.
+3. Reduced Class Explosion: Instead of having separate classes for each shape-renderer combination, you only need to combine them dynamically at runtime.
+4. Decoupling: The abstraction can vary independently from the implementation, enabling flexibility in extending both parts.
+
+#### Conclusion:
+The Bridge Pattern is particularly useful when you need to decouple abstraction from implementation, allowing both to evolve independently. 
+By introducing a flexible structure, you reduce complexity and avoid unnecessary coupling in your system design.
+=======================================================================
+Without the **Bridge Pattern**, you would have to tightly couple the shapes with their respective rendering mechanisms. This means you would need a separate class for each combination of shape and rendering implementation. As the number of shapes and rendering methods grows, the number of classes would increase significantly, leading to what's called **class explosion**.
+
+Here’s how the example would look **without the Bridge Pattern** in Java:
+
+### Example Without Bridge Pattern in Java:
+
+```java
+// Circle with Vector rendering
+class VectorCircle {
+    private float radius;
+
+    public VectorCircle(float radius) {
+        this.radius = radius;
+    }
+
+    public void draw() {
+        System.out.println("Drawing a circle with radius " + radius + " in vector graphics.");
+    }
+}
+
+// Circle with Raster rendering
+class RasterCircle {
+    private float radius;
+
+    public RasterCircle(float radius) {
+        this.radius = radius;
+    }
+
+    public void draw() {
+        System.out.println("Drawing a circle with radius " + radius + " in raster graphics.");
+    }
+}
+
+// Square with Vector rendering
+class VectorSquare {
+    private float sideLength;
+
+    public VectorSquare(float sideLength) {
+        this.sideLength = sideLength;
+    }
+
+    public void draw() {
+        System.out.println("Drawing a square with side length " + sideLength + " in vector graphics.");
+    }
+}
+
+// Square with Raster rendering
+class RasterSquare {
+    private float sideLength;
+
+    public RasterSquare(float sideLength) {
+        this.sideLength = sideLength;
+    }
+
+    public void draw() {
+        System.out.println("Drawing a square with side length " + sideLength + " in raster graphics.");
+    }
+}
+
+// Example usage
+public class Main {
+    public static void main(String[] args) {
+        // Drawing circles
+        VectorCircle vectorCircle = new VectorCircle(5);
+        vectorCircle.draw();  // Output: Drawing a circle with radius 5 in vector graphics.
+
+        RasterCircle rasterCircle = new RasterCircle(10);
+        rasterCircle.draw();  // Output: Drawing a circle with radius 10 in raster graphics.
+
+        // Drawing squares
+        VectorSquare vectorSquare = new VectorSquare(4);
+        vectorSquare.draw();  // Output: Drawing a square with side length 4 in vector graphics.
+
+        RasterSquare rasterSquare = new RasterSquare(8);
+        rasterSquare.draw();  // Output: Drawing a square with side length 8 in raster graphics.
+    }
+}
+```
+
+### Problems Without the Bridge Pattern:
+
+1. **Class Explosion**: Each combination of a shape and a rendering method requires a new class (e.g., `VectorCircle`, `RasterCircle`, `VectorSquare`, `RasterSquare`). If you add more shapes or rendering types, the number of classes increases rapidly. For example:
+   - 3 shapes (Circle, Square, Triangle) and 2 rendering methods (Vector, Raster) would result in 6 classes.
+   - 3 shapes and 3 rendering methods would require 9 classes.
+
+2. **Rigid Code**: If you want to introduce a new rendering method, you would need to create new classes for each shape (e.g., if you want to add a `3DRenderer`, you would need `3DCircle`, `3DSquare`, etc.). This violates the **Open/Closed Principle**, which states that classes should be open for extension but closed for modification.
+
+3. **Duplication of Code**: The `draw()` methods across different shape-rendering combinations will often contain similar logic, leading to duplicated code. In the above example, the only difference between `VectorCircle` and `RasterCircle` is the rendering technique, but the circle logic is repeated.
+
+### Solution with Bridge:
+By introducing the **Bridge Pattern**, you decouple the shape from the rendering method, allowing both to vary independently. You need only one `Circle` class and one `Square` class, and the rendering logic is separated into a `Renderer` interface with different implementations (`VectorRenderer`, `RasterRenderer`). This avoids the class explosion and makes it easy to add new shapes or rendering methods without affecting existing classes.
+=======================================================================
+### Bridge Pattern Example in Java:
+```java
+// Renderer interface
+interface Renderer {
+    void renderCircle(float radius);
+}
+
+// Concrete implementations of Renderer
+class VectorRenderer implements Renderer {
+    @Override
+    public void renderCircle(float radius) {
+        System.out.println("Drawing a circle with radius " + radius + " in vector graphics.");
+    }
+}
+
+class RasterRenderer implements Renderer {
+    @Override
+    public void renderCircle(float radius) {
+        System.out.println("Drawing a circle with radius " + radius + " in raster graphics.");
+    }
+}
+
+// Abstract Shape class
+abstract class Shape {
+    protected Renderer renderer;
+
+    public Shape(Renderer renderer) {
+        this.renderer = renderer;
+    }
+
+    public abstract void draw(); // The draw method to be implemented by concrete shapes
+}
+
+// Concrete Shape (Circle) class
+class Circle extends Shape {
+    private float radius;
+
+    public Circle(Renderer renderer, float radius) {
+        super(renderer);
+        this.radius = radius;
+    }
+
+    @Override
+    public void draw() {
+        renderer.renderCircle(radius); // Delegates rendering to the Renderer object
+    }
+}
+
+// Example usage
+public class Main {
+    public static void main(String[] args) {
+        // Using VectorRenderer
+        Renderer vectorRenderer = new VectorRenderer();
+        Shape circle1 = new Circle(vectorRenderer, 5);
+        circle1.draw();  // Output: Drawing a circle with radius 5 in vector graphics.
+
+        // Using RasterRenderer
+        Renderer rasterRenderer = new RasterRenderer();
+        Shape circle2 = new Circle(rasterRenderer, 10);
+        circle2.draw();  // Output: Drawing a circle with radius 10 in raster graphics.
+    }
+}
+```
+
+### Explanation:
+1. **Renderer Interface**: This interface defines the `renderCircle()` method, which will be implemented by concrete classes to render the circle in different ways (vector or raster).
+2. **VectorRenderer & RasterRenderer**: These are concrete implementations of the `Renderer` interface. Each one defines a different way of rendering the circle.
+3. **Shape Class**: This is the abstract class that holds a reference to a `Renderer`. It has an abstract `draw()` method that concrete shapes (e.g., `Circle`) must implement.
+4. **Circle Class**: This is a concrete shape that implements the `draw()` method. It delegates the rendering operation to the renderer it holds.
+5. **Main Class**: In the main method, different renderers (`VectorRenderer`, `RasterRenderer`) are injected into different shapes (`Circle`), demonstrating how the Bridge pattern allows flexibility.
+
+The Bridge pattern allows for independent development of both shapes and rendering methods, reducing the complexity of managing multiple shape-renderer combinations.
+=======================================
+Try to add new shape

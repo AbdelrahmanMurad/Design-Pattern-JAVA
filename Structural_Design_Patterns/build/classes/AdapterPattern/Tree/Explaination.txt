@@ -1,0 +1,15 @@
+We want to print names as a Tree, Like this:
+
+Ahmad Ali
+    Omar Ali
+
+=====================================================
+To do that, we have TreeFrame Library cant accept names from type of Person.
+So, what do you need ????
+===> You need adapter.
+Who is the adaptee ???
+===> The Person
+
+so make an adapter
+=====================================================
+If you didnt understand, ask chatGBT. or watch the end of the lecture.

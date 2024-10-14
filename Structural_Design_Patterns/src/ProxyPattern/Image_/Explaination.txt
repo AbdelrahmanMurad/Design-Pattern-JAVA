@@ -1,0 +1,63 @@
+Here’s a more organized and polished version of your text:
+
+---
+
+### Proxy Pattern
+
+The Proxy pattern is similar to the Decorator pattern in that both involve wrapping one object with another. However, while the Decorator pattern adds new functionality, the Proxy pattern focuses on controlling access to the underlying object. The goal of the Proxy is to prevent unauthorized access to certain methods or to delay the initialization of costly resources until they are actually needed. In this case, lightweight objects, or "proxies," are used to wrap the heavier objects.
+
+In contrast, the Decorator pattern wraps objects to add new functionality or behaviors.
+
+---
+
+### Motivation
+
+In some scenarios, we need to control access to an object. For example, if we only require a few methods of a costly object, it doesn't make sense to instantiate it fully until it’s actually needed. Instead, we can use a lightweight proxy object that implements the same interface and handles access. This proxy object will defer the creation of the expensive object until necessary.
+
+The Proxy pattern can be useful for several reasons, such as:
+- Controlling when a resource-heavy object is instantiated and initialized.
+- Restricting or managing access rights to certain objects.
+- Providing a mechanism to access and interact with objects that exist in different processes or on remote machines.
+
+---
+
+### Intent
+The Proxy pattern controls access to an object by acting as a surrogate or placeholder, only creating the actual object when needed or restricting certain interactions.
+
+---
+
+### Scenario
+
+Imagine you have a folder of images and want to display only one image at a time.
+
+---
+
+### Problem
+
+If you were to load all the images upfront, even the ones you don’t need, it would take up a lot of memory, especially if the folder contains many images (e.g., 30 images). Loading all images at once could overwhelm memory resources.
+
+To manage memory usage efficiently, we want to load each image only when it's needed, rather than all at once.
+
+---
+
+### Solution: Proxy Pattern
+
+To address this, you can implement the Proxy pattern by creating a proxy class that wraps the original image-loading class. The proxy class implements the same interface as the original class but only loads the images when they are requested.
+
+In this case, the solution involves two classes:
+- The original class, which loads all the images and displays the one you want.
+- The proxy class, which loads and displays only the requested image when needed.
+
+The key benefit is that "every wrapping pattern has the same type as the object it wraps." In this case, the proxy class behaves like the original image-loading class but optimizes resource usage by deferring object creation.
+
+---
+
+### Benefits of the Proxy Pattern
+- Efficient Resource Management: Load expensive resources (like images) only when needed.
+- Controlled Access: Restrict or manage which methods or operations can be accessed.
+- Lazy Initialization: Avoid instantiating resource-heavy objects until absolutely necessary.
+
+---
+
+### Conclusion
+The Proxy pattern is an effective solution when you need to control access to an object or delay its creation, especially for expensive or memory-intensive operations. By using a proxy, you can optimize resource management and enhance application performance.
