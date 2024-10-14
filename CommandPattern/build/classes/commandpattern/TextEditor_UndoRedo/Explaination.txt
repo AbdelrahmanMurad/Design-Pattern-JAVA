@@ -1,0 +1,80 @@
+In this example, the Command Pattern is applied in a text editor where actions like writing and deleting text are reversible.
+
+
+
+Explaining => "text.delete(text.length() - length, text.length());"
+
+it is part of a `StringBuilder` operation in Java, and it performs the following actions:
+
+1. `text`: This is a `StringBuilder` object that holds a mutable sequence of characters (text).
+2. `text.length()`: This method returns the current length of the string in the `StringBuilder`, i.e., the number of characters in the text.
+3. `text.length() - length`: This calculates the starting index for the deletion. It means, "start deleting characters `length` characters back from the end of the string."
+4. `text.length()`: This is the ending index (exclusive) of the range to be deleted. It represents the end of the string, meaning it will delete characters up to the very last character.
+
+### Example Breakdown
+Suppose `text` contains the string `"Hello, World!"`, and `length = 7`: [the actual value of length would depend on the context of your code.]
+
+- `text.length()`: The length of `"Hello, World!"` is 13.
+- `text.length() - length`: This calculates `13 - 7 = 6`. So, deletion starts at index 6.
+- `text.delete(6, 13)`: This deletes all characters starting from index 6 up to the end of the string, which removes `" World!"`.
+
+After executing this line, the `text` will now contain `"Hello,"`, with everything after the 6th index deleted.
+
+
+```JAVA
+// Command Interface
+interface Command {
+    //execute(); //adding text
+    //undo(); //deleting text
+}
+
+// Receiver
+class TextEditor {
+    //text from object StringBuilder
+    
+    //addText()
+    //deleteText()
+    //getText()
+}
+
+// Concrete Command for adding text
+class AddTextCommand implements Command {
+    //editor attribute (type: TextEditor)
+    //textToAdd attribute (Type: String)
+
+    //cons to pass the attributes
+
+    //execute() for adding text
+    //undo() for deleting text
+}
+
+// Invoker
+class EditorInvoker {
+    //command attribute
+    //setter to pass the command [you can use the cons instead, but in this situation setter is better to avoid making objects everytime.]
+    //performAction() for execute()
+    //undoAction() for undo()
+
+    public void performAction() {
+        command.execute();
+    }
+
+    public void undoAction() {
+        command.undo();
+    }
+}
+
+// Client code
+public class CommandPatternEditorDemo {
+    public static void main(String[] args) {
+        //TextEditor obj
+        //AddTextCommand obj
+        //EditorInvoker obj
+        //setter
+        //performAction()
+        //you can check from getString
+        //undoAction()
+        //you can check from getString
+        }
+}
+```

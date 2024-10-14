@@ -1,0 +1,124 @@
+### Command Pattern
+
+The Command design pattern encapsulates commands (method calls) in objects allowing us to issue requests without knowing the requested operation or the requesting object. 
+Command design pattern provides the options to queue commands, undo/redo actions and other manipulations.
+
+#### Intent:
+- Encapsulate a request in an object
+- Allows saving the requests in a queue
+
+#### Scenario:
+Imagine you have a simple remote control that can turn a light on and off. The remote directly interacts with the light. 
+To achieve this, you have to hard-code the logic for each action directly in the remote control, which tightly couples the remote control and the light.
+
+```JAVA
+class Light {
+    //turnOn()
+    //turnOff()
+}
+
+class RemoteControl {
+    //light attribute
+    //cons to pass the light
+    //pressOnButton() will turnOn().
+    //pressOffButton() will turnOff().
+}
+
+public class NoCommandPatternDemo {
+    public static void main(String[] args) {
+        //obj for Light()
+        //obj for RemoteControl(pass the obj light)
+        //pressOnButton();
+        //pressOffButton();
+    }
+}
+```
+
+### Problem:
+- Tight Coupling: The RemoteControl is tightly coupled to the Light class. If we want to control other devices (e.g., a fan or TV), we would need to modify the RemoteControl class to handle each new device.
+- Difficult to Extend: Adding new devices or actions (like dimming the light or adjusting the fan speed) requires modifying the RemoteControl every time, making it hard to scale.
+- Hard to Reuse: The control logic for turning on/off the light is embedded within the RemoteControl, making it difficult to reuse this logic elsewhere or apply the same commands to other objects.
+- No Flexibility: The remote can only perform pre-defined actions. We can't dynamically change or queue up actions (e.g., turning the light on first, then off).
+
+### Solution: The Command Pattern
+By introducing the Command Pattern, we decouple the `RemoteControl` from the specific actions (like turning on/off the light). 
+Instead, the `RemoteControl` will work with any `Command` object that adheres to a simple interface. 
+Each command encapsulates the specific action to be performed on the receiver (in this case, the `Light`).
+This makes it easy to extend the system without modifying the `RemoteControl`, as new actions can be introduced by adding new `Command` classes.
+
+Key Benefits:
+1. Decoupling: The `RemoteControl` no longer depends on the specific implementation of `Light`. It only knows how to execute commands, making it flexible and reusable with any device.   
+2. Extensibility: To add a new device or action, you just need to implement a new `Command` class. The `RemoteControl` can then invoke this command without being changed.
+3. Reusability: You can reuse the same `Command` objects in different contexts, and actions can be queued, delayed, or undone.
+
+```java
+// Command Interface
+interface Command {
+    //execute();
+}
+
+// Receiver
+class Light {
+    //turnOn()
+    //turnOff()
+}
+
+// Concrete Command for turning on the light
+class LightOnCommand implements Command {
+    //light attribute
+    //cons to pass the light
+    //execute() will turnOn().
+}
+
+// Concrete Command for turning off the light
+class LightOffCommand implements Command {
+    //light attribute
+    //cons to pass the light
+    //execute() will turnOff().
+}
+
+// Invoker
+class RemoteControl {
+    //command attribute
+    //setter to pass the command [you can use the cons instead, but in this situation setter is better to avoid making objects everytime.]
+    //pressButton() for execute()
+}
+
+// Client code
+public class CommandPatternDemo {
+    public static void main(String[] args) {
+        // light obj
+        // light on obj (pass the light)
+        // light off obj (pass the light)
+        // remote control obj
+        
+        // Turn the light on
+        // Turn the light off
+    }
+}
+```
+
+In the solution, the `RemoteControl` now interacts with `Command` objects, which encapsulate the actual logic to turn the light on or off. 
+This allows us to easily extend functionality, add new devices, and promote code reusability.
+
+### Benefits of the Command Pattern:
+
+1. Decoupling: It separates the sender (Invoker) from the receiver, allowing flexibility in changing or extending actions without altering the invoker.
+2. Extensibility: New commands can be added easily by creating new classes, without modifying existing code.
+3. Reusability: Commands can be reused across different contexts, promoting modular design.
+4. Undo/Redo Support: It enables undo/redo functionality by keeping a history of commands.
+5. Simplifies Complex Operations: Commands can be queued, logged, or executed in sequence, simplifying complex processes.
+
+### Conclusion:
+
+The Command Pattern simplifies code by decoupling actions from their execution, making systems flexible, extensible, and easier to maintain. 
+It's especially useful for managing multiple operations or devices, and supporting undo/redo functionality.
+
+So, there is no relationship between Remote and Receiver, Its just between Remote and the Command. Remote knows nothing about any receivers:
+- The RemoteControl only knows about the Command interface.
+- The Command object holds a reference to the Receiver (like Light) and knows how to perform the action.
+- The RemoteControl calls the execute() method on the Command, but it has no idea what the command is actually doing or which object (receiver) it is acting upon.
+- This means the RemoteControl is completely decoupled from the Receiver. It only needs to deal with commands, and each command is responsible for knowing how to work with its specific receiver. This decoupling is one of the key benefits of the Command Pattern.
+=======================
+Try to add new reciver and see how its easy. (light is reciver)
+    - we added Fan.
