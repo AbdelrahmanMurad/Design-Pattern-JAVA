@@ -1,0 +1,72 @@
+Which structure is better ?? the structure of TextEditor Example, or this ??
+
+Both structures have valid implementations of the Memento Pattern, but there are some differences in approach. Let's compare them in a structured way to help you choose which one is better for your use case.
+
+### Structure Comparison
+
+#### 1. **Memento as a Nested Class (Second Example) vs. Separate Class (First Example)**
+
+- **First Example**: 
+   - The `Memento` class is a **separate class**.
+   - This approach keeps classes cleanly separated and follows the single responsibility principle, where each class has a clear, distinct role.
+   - **Pros**: 
+     - Better separation of concerns.
+     - More flexibility in managing the `Memento` class independently.
+   - **Cons**:
+     - It requires an additional class file, which could increase complexity for small projects.
+
+- **Second Example**:
+   - The `Memento` class is an **inner static class** within the `Originator`.
+   - This approach encapsulates the `Memento` inside the `Originator`, ensuring the `Memento` class is closely tied to the originator’s lifecycle and is not used outside its intended scope.
+   - **Pros**:
+     - Better encapsulation: `Memento` is private to the `Originator`, reducing the risk of misuse.
+     - Clear association: Easier to understand that the `Memento` is only used with the `Originator`.
+   - **Cons**:
+     - Reduced flexibility: If you ever want to expand the functionality of the `Memento`, it might be harder with an inner class structure.
+
+#### 2. **Saving and Restoring States**
+
+- **First Example**:
+   - Uses `Caretaker` as a separate class responsible for managing states and restoring them.
+   - Focuses on undo functionality by saving one state at a time and restoring when needed.
+   - **Pros**:
+     - Clear responsibilities: The `Caretaker` class handles the state management, ensuring separation from the core logic of the `Originator`.
+   - **Cons**:
+     - Less flexible when handling multiple states at once (you would need more logic for restoring multiple saved states like in the second example).
+
+- **Second Example**:
+   - Stores multiple states in a list (`ArrayList`), allowing the user to roll back to various states.
+   - All saved mementos are stored in the `main` method within a `List`, and multiple states can be restored in a loop.
+   - **Pros**:
+     - More flexibility: The ability to handle multiple mementos and restore various states is built-in.
+     - Better control over multiple undo/redo points.
+   - **Cons**:
+     - Managing state is embedded within the `main` method, which might reduce separation of concerns.
+     - It might require more manual management for complex cases.
+
+#### 3. **Usage and Complexity**
+
+- **First Example**:
+   - Simpler and focuses on a basic undo functionality.
+   - Easier to understand for a beginner or smaller project.
+   - Clean separation of responsibility between classes.
+   
+- **Second Example**:
+   - Offers more flexibility and control for managing multiple states.
+   - More suitable for complex systems where multiple states need to be saved and restored dynamically.
+   - Encapsulates the `Memento` inside the `Originator`, providing better internal control but at the cost of flexibility for expansion.
+
+### Conclusion
+
+- **Use the First Example (Separate Classes)** if:
+  - You want **clear separation of concerns**.
+  - You need **simple undo/redo functionality** without the need to manage multiple states dynamically.
+  - You prefer **cleaner, modular code** where each class has its own responsibility.
+  - You need the flexibility to expand or refactor the `Memento` or `Caretaker` classes independently in the future.
+
+- **Use the Second Example (Nested Class)** if:
+  - You want **more control over multiple saved states** (e.g., supporting multiple undo points or checkpoint restores).
+  - You prefer to have the `Memento` **tightly coupled with the `Originator`** to enhance encapsulation.
+  - You're working on a **more complex project** where managing multiple states within the application is necessary.
+
+In general, the first example is more modular and simple, making it easier to maintain and expand. The second example is more compact and encapsulated, which could be better if you're dealing with a large number of states or prefer tighter integration between the `Originator` and `Memento`.

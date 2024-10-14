@@ -1,0 +1,121 @@
+### Mediator Pattern
+
+#### Intent:
+- The Mediator Pattern is designed to reduce the complexity of communication between objects or components by introducing a mediator object. 
+- Instead of objects interacting directly, they communicate through the mediator, which manages the interaction logic, helping to decouple components and simplify code.
+
+#### Scenario of the Project:
+Consider a chat application where users can send messages to each other. 
+Without a mediator, every user would need to know about all the other users to send and receive messages, resulting in a highly coupled system. 
+
+#### Problem:
+In a system where multiple objects need to communicate directly with each other (like a group chat), 
+each object must be aware of the others. For instance, if there are 5 users in a chat room, every user needs to know how to communicate with each of the other 4 users. 
+This leads to:
+- Tight coupling between objects (users depend on each other directly).
+- Increased complexity as the number of objects increases.
+- Difficulty in maintenance and updating, since changes to one user’s communication can affect others.
+
+#### Solution:
+By introducing a ChatRoom (Mediator), users no longer need to be aware of each other. 
+Each user communicates only with the ChatRoom, which handles the message routing. 
+For example, when a user sends a message, the ChatRoom determines which users should receive it and forwards the message accordingly. 
+This decouples the users and centralizes the communication logic within the mediator.
+
+### Benefits of This Pattern:
+1. Reduced Coupling: Objects don't need to know about each other; they only interact with the mediator.
+2. Centralized Control: The mediator manages communication logic, making the system more modular.
+3. Ease of Maintenance: Changes to object interactions are handled in the mediator, reducing the impact on the overall system.
+4. Simplified Communication: Complex interactions between many objects become manageable.
+
+#### Conclusion:
+The Mediator Pattern is highly useful in systems where multiple objects need to interact but direct communication leads to tight coupling and complexity. 
+By centralizing communication in a mediator, the pattern promotes loose coupling, making the system more flexible, maintainable, and easier to scale.
+=======================================================
+Here's a simple example of the Mediator Pattern in Java, using a chat room scenario:
+
+### Mediator Pattern Example: Chat Room
+
+#### Mediator Interface
+```java
+interface ChatMediator {
+    //addUser(User user);
+    //sendMessage(String message, User user);
+}
+```
+
+#### Concrete Mediator (ChatRoom)
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+class ChatRoom implements ChatMediator {
+    // arrayList of users (Type: User)
+
+    @Override
+    //addUser(User user){
+        add
+    }
+
+    @Override
+    sendMessage(String message, User sender) {
+        // Don't send the message to the sender
+    }
+```
+
+#### Colleague Class (User)
+```java
+abstract class User {
+    //mediator (Type: ChatMediator)
+    //name(Type: String)
+    //cons
+    //getters
+    // abstract void send(String message);
+    // abstract void receive(String message);
+}
+```
+
+#### Concrete Colleague (Concrete User)
+```java
+class ChatUser extends User {
+    //cons
+    //implementing send()
+    //implementing receive()
+    }
+}
+```
+
+#### Main Program (Client Code)
+```java
+public class MediatorPatternDemo {
+    public static void main(String[] args) {
+       //Obj for chatRoom
+       //Obj for users
+
+        //chatRoom.addUser(user1);
+        //chatRoom.addUser(user2);
+        //chatRoom.addUser(user3);
+
+        //user1.send("Hello everyone!");
+        //user2.send("Hey Alice!");
+    }
+}
+```
+
+### Output:
+```
+Alice sends: Hello everyone!
+Bob received: Hello everyone!
+Charlie received: Hello everyone!
+Bob sends: Hey Alice!
+Alice received: Hey Alice!
+Charlie received: Hey Alice!
+```
+
+### Explanation:
+- **Mediator Interface**: `ChatMediator` defines the methods that the mediator (chat room) should implement.
+- **Concrete Mediator**: `ChatRoom` handles the logic of sending messages between users.
+- **Colleague Class**: `User` represents a user in the chat, with methods to send and receive messages.
+- **Concrete Colleague**: `ChatUser` is a concrete implementation of the user that interacts with the `ChatRoom` mediator.
+
+In this setup, users don’t communicate directly with each other; they send and receive messages via the `ChatRoom` mediator, reducing dependencies between users.

@@ -1,0 +1,88 @@
+### Memento Pattern
+Memento means Memory
+sometimes we want to hold onto a version of an important object's state at a particular moment
+
+memento: a saved "snapshot" of the state of an object or objects for possible later use; useful for:
+writing an Undo / Redo operation
+persistency; save / load state between executions of program    
+
+#### Intent: 
+Provides a way to capture and store the current state of an object, so it can be restored later without exposing its internal structure. 
+The goal is to preserve encapsulation while allowing an object to be reverted to a previous state.
+
+#### Scenario:
+Imagine you're building a text editor with undo/redo functionality. 
+Users often make mistakes while editing and want to undo certain actions (like typing, deleting, or formatting). 
+You need a way to store different versions of the document and restore a specific version when the user requests it.
+
+#### Problem:
+Without the Memento Pattern, implementing undo/redo functionality could lead to a tightly coupled system where the editor's internal state is exposed to external classes. 
+This can make the system hard to maintain, with a risk of introducing bugs when external classes try to modify the internal state directly. 
+The system becomes more fragile, and maintaining a clear separation between the editor's logic and the undo/redo system is difficult.
+
+#### Solution:
+Using the Memento Pattern, the text editor's state can be stored in a "memento" object, which is an immutable snapshot of the editor's state at a particular time. 
+The editor class creates mementos and gives them to a "caretaker" object (such as the undo manager) that holds these snapshots. 
+When the user wants to undo or redo an action, the caretaker simply retrieves the appropriate memento and restores the editor’s state, without accessing its internal structure.
+
+### Benefits of This Pattern:
+- Encapsulation: Mementos encapsulate the state of the object, so it’s possible to save and restore states without exposing the internal details.
+- Separation of Concerns: The caretaker doesn’t need to understand the object’s internal structure, ensuring a clean separation between state management and the core logic.
+- Undo/Redo Support: This pattern makes implementing features like undo/redo straightforward by saving and restoring snapshots of the system's state.
+
+#### Conclusion:
+The Memento Pattern provides an elegant solution for storing and restoring an object's state while preserving its encapsulation. 
+By using this pattern, you can implement undo/redo functionality effectively without exposing or coupling your system's internal structure to external classes. 
+It helps to keep your system flexible, maintainable, and easy to extend.
+================================================================
+Here’s a simple example of the **Memento Pattern** in Java, simulating a text editor with undo functionality.
+
+### Memento Pattern Java Example
+
+```java
+// Memento class to store the state of the TextEditor [State Store]
+class Memento {
+    - final String state attribute
+    - cons
+    - getState
+}
+
+// Originator class that creates and restores Memento objects
+class TextEditor {
+    - String text attribute         
+    - stter & getter
+    - Saves the current state to a new Memento - save()
+    - Restores the state from the Memento - restore()
+}
+
+// Caretaker class that manages Mementos (undo functionality)
+class Caretaker {
+    - memento attribute from Memento Object
+    - saveState(): save the state of TextEditor in the Memento.
+    - undo(): restore tha state of the TextEditor from the Memento. 
+    }
+}
+
+// Client code to demonstrate the Memento pattern
+public class MementoPatternDemo {
+    public static void main(String[] args) {
+        // TextEditor obj
+         // CareTaker obj
+        // Setting text and saving state
+        // Changing text
+        // Undo to previous state
+    }
+}
+```
+
+### Explanation:
+- **TextEditor** (Originator): Manages the text state and can save/restore it using Memento.
+- **Memento**: Stores the state of the text (here, the text content).
+- **Caretaker**: Keeps track of the memento to provide undo functionality.
+
+### Output:
+```
+Current Text: Version 1
+Current Text: Version 2
+After Undo: Version 1
+```

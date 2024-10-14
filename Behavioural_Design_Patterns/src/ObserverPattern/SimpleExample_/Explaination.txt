@@ -1,0 +1,85 @@
+### Observer Pattern Overview (Example with Components and Classes)
+
+#### Intent: 
+
+The Observer Pattern is a behavioral design pattern that defines a one-to-many relationship between objects, 
+    so when one object (subject) changes state, all its dependent objects (observers) are notified and updated automatically. 
+    This can be a powerful solution to avoid tight coupling between components and make the code more scalable and maintainable.
+
+#### Scenario:
+
+- Component 1: Connection Database (Class A)
+- Component 2: GUI (Class B)
+- Component 3: Network Services (Class C)
+
+#### Problem:
+Imagine you need to send data from `Class A` (which is responsible for the database) to `Class B` (GUI) and `Class C` (Network Services).
+
+In a basic setup, you could achieve this with a `sendData()` method in `Class A`, and `setData()` methods in `Class B` and `Class C`. But this approach would result in the following issues:
+1. Inefficiency: You might manually instantiate and connect these objects in the `clientClass` (main method).
+   
+   ```java
+   A a = new A();
+   B b = new B();
+   C c = new C();
+   
+   b.setData(a.sendData("Hello"));
+   c.setData(a.sendData("Hello"));
+   ```
+
+2. Tight Coupling: You would need to hard-code relationships between `A`, `B`, and `C`, meaning every time you add a new class, you would need to modify `A` to accommodate this new class.
+   
+   ```java
+   // In Class A
+   B b;
+   C c;
+
+   // Setting references in Class A to B and C via constructor or methods
+   public void setB(B b) { this.b = b; }
+   public void setC(C c) { this.c = c; }
+   ```
+
+This is not efficient because you have to make changes to `Class A` each time a new observer (like a new class) is added. This goes against the open/closed principle (classes should be open for extension, but closed for modification).
+
+#### Solution: Observer Pattern
+
+With the Observer Pattern, you can decouple `Class A` (the subject) from `Class B` and `Class C` (the observers). This allows you to add new observers without changing the existing code in `Class A`. You just modify the new observer class to subscribe to the data changes from `Class A`.
+
+#### How the Observer Pattern Solves This:
+1. Subject: `Class A` will act as the subject that notifies the observers (`B` and `C`).
+2. Observers: `Class B` and `Class C` will act as observers that "subscribe" to the subject and get notified when the data in `Class A` changes.
+
+### Java Code Example
+
+Here’s how you can implement the Observer Pattern: [The code you implemented on this project]
+    - interface Observer
+            update()
+
+    - class A
+            define an arrayList from interfacte type
+            data attibute
+            addObserver()
+            removeObserver()
+            notifyObserver()
+            sendData()
+
+    - class B implements Observer
+    - class C implements Observer
+
+### Explanation:
+- Class A: Acts as the subject. It maintains a list of observers (`B` and `C`) and notifies them whenever the data changes.
+- Class B and C: These act as observers and implement the `Observer` interface. Each time `A` changes its data, they are notified and receive the new data.
+- Observer Pattern allows you to add more observers in the future (e.g., `Class D`, `Class E`) without modifying the subject `A`. You just need to register the new observer to `A`.
+
+### Benefits of Observer Pattern:
+1. Decoupling: `A` doesn't need to know the specific details of `B` and `C`. It simply notifies them when something changes.
+2. Scalability: You can add more observers (like a `Class D`) in the future without modifying `Class A`.
+3. Efficiency: The `sendData()` method doesn't need to worry about explicitly calling methods in `B` or `C`. Observers are automatically notified when the subject's state changes.
+
+#### Conclusion:
+The Observer Pattern simplifies the design by reducing tight coupling and making it easy to extend functionality. 
+You can add new observers without changing existing code, making your project more scalable and maintainable.
+
+Try to add a new observer and see how its easy to use.
+
+In the End: This Pattern is so Important, its used so much.

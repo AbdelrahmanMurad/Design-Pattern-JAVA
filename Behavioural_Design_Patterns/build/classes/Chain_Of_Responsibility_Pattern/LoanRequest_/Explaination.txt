@@ -1,0 +1,118 @@
+### Chain of Responsibility Pattern
+
+#### Intent:
+- This pattern avoids coupling the sender of a request with its receiver, allowing other objects in the system to handle the request. 
+- The objects become part of a chain, and the request is passed from one object to another until one object handles it.
+
+#### Scenario:
+Chain of Responsibilities  
+This pattern is useful in any program that involves a sequential workflow.
+
+For example, consider a document life cycle management system or a paperwork transaction system. 
+If an employee requests a loan, the process could be managed electronically through the following steps:
+
+1. Human Resources Department: [Handler]
+   - The request first goes to Human Resources (HR).
+   - HR checks two conditions using `if` statements:
+     - Is the request urgent?
+     - Does the employee have any outstanding loans?
+   - If both conditions are met, the request is forwarded to the next department.
+
+2. Financial Department: [Handler]
+   - The request moves to the financial department, where the following conditions are checked:
+     - Does the company have the budget for the loan?
+     - For example, if the company's budget is $200,000 and the employee requests less than $10,000.
+   - If the request passes these checks, it moves to the next stage.
+
+3. General Manager: [Handler]
+   - The general manager reviews the request:
+     - If the request is urgent, it gets approved immediately.
+     - If not urgent, the manager will evaluate the employee's performance.
+     - If the performance score is below 6/10, the request is denied.
+
+4. Treasury: [Handler]
+   - Finally, the request reaches the treasury, and the loan is disbursed.
+
+The process follows these sequential steps:
+1. Human Resources
+2. Financial Department
+3. General Manager
+4. Treasury
+
+#### Problem:
+When there are multiple `if` statements [nested] without structure, the system becomes cluttered and hard to manage.
+
+#### Solution: 
+By using the Chain of Responsibility Pattern, each step (or handler) is responsible for managing specific conditions and passing the request along the chain in an organized way.
+- Every Handler will have its own class.
+
+class LoanRequest
+    float amount
+    int urgent
+    boolean indebt // هل الموظف مديون ؟؟
+    int empEvaluation //[0-10] تقييم الموظف
+    - this attributes is the 4 condintions that the request will pass on.
+
+
+class LoanHandler
+    LoanHandler successor //التالي to know the next handler
+    set & get
+    abstract boolean method handleRequest(LoanRequest request) // Every LoanHandler will implement this abstract method on his way
+
+
+- Every Handler will extends LoanHandler
+- The First Handler will be: class HRHandler
+- ........2................................: class  FinancialDeptHandler
+- ........3................................: class  GeneralManagerHandler
+- ........4................................: class  TreasuryHandler
+
+
+HRHandler class:
+- handleRequest method
+    - if statments
+        - urgent means >=3 || not urgent < 3 && not in dept
+            - if true:  return handle request
+            - if false: return false
+
+FinancialDeptHandler class:
+- float budget 500000
+- handleRequest method
+    - if statments
+        - amount <=10000 && budget >= 200000
+            - if true: return handle request
+            - if false: return false
+
+GeneralManagerHandler class:
+- handleRequest method
+    - if statments
+        - urgent >= 3 || urgent < 3 && employee evaluation >=6
+            - if true: return handle request
+            - if false: return false
+
+TreasuryHandler class: 
+- handleRequest method
+    - return true
+
+
+Note: its not important to make the handler knows the next successor. But how we will initialize the successor ??
+- the successor will be known by linkink the objects in the client class (making the chain) :)
+
+Main Class:
+- Objects for:
+    1. Human Resources
+    2. Financial Department
+    3. General Manager
+    4. Treasury
+- linking (Chain of Responsibility) [initialize the successor by using setters]
+- LoanRequest object [to write the types of request]
+- then HR will handle the request.
+
+[Try more than one situation of requests.]
+
+### Benefits of This Pattern:
+- Reduces coupling between the sender and receiver.
+- Improves system scalability and flexibility.
+- Each object in the chain can be modified independently.
+
+#### Conclusion:
+The Chain of Responsibility Pattern offers a structured way to handle requests that must pass through several objects, making the system easier to manage and extend.

@@ -1,0 +1,78 @@
+### Template Method Pattern or Template Pattern
+
+### Intent
+
+The **Template Method Pattern** defines the skeleton of an algorithm in a method, deferring some steps to subclasses. 
+This pattern allows subclasses to redefine certain steps of the algorithm without changing its structure.
+
+### Scenario
+
+We want to develop a **process texting project**, where various message types (e.g., SMS, Email, Chat) need to be processed following a sequence of steps that can be shared across different formats but may vary slightly depending on the medium. 
+For example, all messages need to be formatted, logged, and then sent, but the specific formatting or sending mechanism can vary.
+
+### Problem
+
+In a process texting system, we need to ensure a consistent process across all messaging mediums, but each medium (SMS, Email, Chat) may have slightly different steps, 
+such as how they handle formatting, error reporting, or message delivery. Managing these differences without duplicating code can become complex.
+
+### Solution: **Template Method Pattern**
+
+The Template Method Pattern allows us to define a base process that applies to all messaging formats, 
+while giving each format the ability to customize specific steps. The base class contains the skeleton for the messaging process, and subclasses override only the parts that differ between SMS, Email, or Chat.
+
+### Benefits of Template Method Pattern
+
+- **Code Reusability**: The shared steps (e.g., `logMessage()`) are defined once in the base class, avoiding duplication across subclasses.
+- **Customization**: Each subclass can define its own behavior for specific steps, while still following the overall process defined in the base class.
+- **Maintainability**: Changes to the common workflow (e.g., adding a new step) can be made in the base class and automatically apply to all subclasses.
+
+### Conclusion
+
+The Template Method Pattern is an excellent solution for structuring a process texting project because it allows for shared logic across different messaging types while also enabling custom behavior where necessary. 
+This promotes cleaner, more maintainable, and flexible code.
+
+
+---------------------------------------------------------------------------
+Here’s the code with added comments explaining each part:
+
+```java
+public abstract class TextProcessorTemplate {
+
+    // Abstract method to tokenize the input text.
+    // Each subclass will implement its own logic for breaking the text into individual tokens (e.g., words).
+    public abstract String[] tokenize(String text);
+
+    // Abstract method to remove stopwords from the tokenized text.
+    // Each subclass will define how it identifies and removes common stopwords (like "the", "is", etc.).
+    public abstract String[] removeStopwrods(String[] text);
+
+    // Abstract method to stem the tokens.
+    // Stemming reduces words to their base or root form (e.g., "running" -> "run").
+    public abstract String[] stem(String[] text);
+
+    // Abstract method to apply sentiment analysis on the processed tokens.
+    // Each subclass will define how it analyzes sentiment (e.g., positive, negative, neutral) in the text.
+    public abstract String applySentimentAnalysis(String[] text);
+
+    // Final method that defines the text processing template.
+    // This method is final to prevent subclasses from overriding it, ensuring the sequence of steps is always followed.
+    //Thats the template method
+    final public String processText(String text) {
+        // Step 1: Tokenize the input text.
+        String[] tokens = tokenize(text);
+        
+        // Step 2: Remove stopwords from the tokenized text.
+        String[] tokensWithoutStopwords = removeStopwrods(tokens);
+        
+        // Step 3: Apply stemming to the tokens to reduce words to their root form.
+        String[] stem = stem(tokensWithoutStopwords);
+        
+        // Step 4: Apply sentiment analysis to the processed tokens and return the result.
+        return applySentimentAnalysis(stem);
+    }
+}
+```
+
+### Explanation of Key Concepts:
+- **`final` on `processText`**: The `final` keyword is used here to prevent subclasses from overriding the method, ensuring that the sequence of operations (tokenization, stopword removal, stemming, sentiment analysis) remains consistent across all subclasses.
+- **Abstract Methods**: These are placeholders for specific implementations that subclasses will provide, allowing different variations of text processing while still following the same general workflow defined in `processText`.

@@ -1,0 +1,24 @@
+2022/04/11 15:24:45 : Adam : How do u do?
+2022/04/11 15:24:47 : Ahmed : Nice weather today. Isn't it?
+2022/04/11 15:24:49 : Ahmed : Nothing
+2022/04/11 15:24:51 : Adam : what did u do today?
+2022/04/11 15:24:53 : Ahmed : Nothing
+2022/04/11 15:24:55 : Adam : what did u do today?
+2022/04/11 15:24:57 : Adam : what did u do today?
+2022/04/11 15:24:59 : Ali : I am fine. U?
+2022/04/11 15:25:01 : Ahmed : Nothing
+2022/04/11 15:25:03 : Ahmed : Nice weather today. Isn't it?
+2022/04/11 15:25:05 : Ahmed : Nothing
+2022/04/11 15:25:07 : Ahmed : Nothing
+2022/04/11 15:25:09 : Adam : How do u do?
+2022/04/11 15:25:11 : Vin : Are u a student?
+2022/04/11 15:25:13 : Ali : I am fine. U?
+2022/04/11 15:25:15 : Adam : Good bye
+2022/04/11 15:25:17 : Adam : what did u do today?
+2022/04/11 15:25:19 : Vin : Are u a student?
+2022/04/11 15:25:21 : Ali : bye
+2022/04/11 15:25:23 : Ahmed : Nice weather today. Isn't it?
+2022/04/11 15:25:25 : Ali : I am fine. U?
+2022/04/11 15:25:27 : Ahmed : Nothing
+2022/04/11 15:25:29 : Adam : How do u do?
+2022/04/11 15:25:31 : Ali : bye
